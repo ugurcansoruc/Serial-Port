@@ -7,7 +7,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        static bool _continue;
+        //continue kaldırıldı
         static SerialPort _serialPort;
         //static StringComparer _stringComparer;
         //static Thread _readThread;
