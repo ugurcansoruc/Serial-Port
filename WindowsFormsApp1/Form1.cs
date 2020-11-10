@@ -46,14 +46,14 @@ namespace WindowsFormsApp1
 
         private void SetText(string text)
         {
-            if (this.DataTextBox.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 SetTextCallback d = new SetTextCallback(SetText);
                 this.Invoke(d, new object[] { text });
             }
             else
             {
-                this.DataTextBox.Text = text;
+                ShowRead(text);
             }
         }
 
@@ -61,12 +61,14 @@ namespace WindowsFormsApp1
         public void Read(object sender, SerialDataReceivedEventArgs e)
         {
             string message = _serialPort.ReadExisting().ToString();
-            ShowRead(message);
+            SetText(message);
         }
         
         public void ShowRead(string data)
         {
-            SetText(data);
+            string[] splittedDatas;
+            splittedDatas = data.Split(',');
+            DataTextBox.Text = splittedDatas[0];
         }
         public static string SetPortName(string defaultPortName,ComboBox comboBox)
         {
