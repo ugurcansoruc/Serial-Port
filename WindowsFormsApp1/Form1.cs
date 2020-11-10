@@ -68,7 +68,14 @@ namespace WindowsFormsApp1
         {
             string[] splittedDatas;
             splittedDatas = data.Split(',');
-            DataTextBox.Text = splittedDatas[0];
+
+            DataTextBox.Text = data;
+
+            int data1 = Int16.Parse(splittedDatas[0]);
+            int data2 = Int16.Parse(splittedDatas[1]);
+
+            Data1Chart.Series["Data1"].Points.Add(data1);
+            Data2Chart.Series["Data2"].Points.Add(data2);
         }
         public static string SetPortName(string defaultPortName,ComboBox comboBox)
         {
@@ -155,12 +162,10 @@ namespace WindowsFormsApp1
             _serialPort.BaudRate = SetPortBaudRate(_serialPort.BaudRate, BaudRateComboBox);
             _serialPort.Parity = SetPortParity(_serialPort.Parity, ParityComboBox);
             _serialPort.DataBits = SetPortDataBits(_serialPort.DataBits, DataBitComboBox);
-
-            //bunları eklemesek de olur
             _serialPort.StopBits = SetPortStopBits(_serialPort.StopBits);
             _serialPort.Handshake = SetPortHandshake(_serialPort.Handshake);
 
-            _serialPort.ReadTimeout = 500;
+            //_serialPort.ReadTimeout = 500;
 
             _serialPort.DataReceived += new SerialDataReceivedEventHandler(Read);
             _serialPort.Open();
@@ -179,6 +184,17 @@ namespace WindowsFormsApp1
         {
             TerminateSerialPort();
             ControlLabel.Text = "Kapali";
+        }
+
+        private void Data1Button_Click(object sender, EventArgs e)
+        {
+            Data1Chart.BringToFront();
+        }
+
+        private void Data2Button_Click(object sender, EventArgs e)
+        {
+            Data2Chart.BringToFront();
+
         }
     }
 }
