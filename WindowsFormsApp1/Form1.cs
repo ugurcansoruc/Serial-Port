@@ -13,6 +13,12 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
         }
+        
+        public void Form1_Load(object sender, EventArgs e)
+        {
+            InitializeCombobox();
+        }
+
         public void InitializeCombobox()
         {
             string[] baudRates = new string[] { "19200", "9600" };
@@ -34,10 +40,6 @@ namespace WindowsFormsApp1
                 ParityComboBox.Items.Add(s);
             }
             ParityComboBox.SelectedIndex = 0;
-        }
-        public void Form1_Load(object sender, EventArgs e)
-        {
-            InitializeCombobox();
         }
 
         delegate void SetTextCallback(string text);
@@ -143,8 +145,7 @@ namespace WindowsFormsApp1
 
             return (Handshake)Enum.Parse(typeof(Handshake), handshake, true);
         }
-
-        private void StartButton_Click(object sender, EventArgs e)
+        public void InitializeSerialPort()
         {
             _serialPort = new SerialPort();
 
@@ -161,14 +162,21 @@ namespace WindowsFormsApp1
 
             _serialPort.DataReceived += new SerialDataReceivedEventHandler(Read);
             _serialPort.Open();
-
+        }
+        public void TerminateSerialPort()
+        {
+            _serialPort.Close();
+        }
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            InitializeSerialPort();
             ControlLabel.Text = "Acik";
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
+            TerminateSerialPort();
             ControlLabel.Text = "Kapali";
-            _serialPort.Close();
         }
     }
 }
